@@ -1,0 +1,9 @@
+body {
+  background-color: hsl(0, 0%, 98%);
+}
+.bg-dark {
+  background-color: lightslategray !important;
+}
+.btn {
+  border-radius: 0;
+}
