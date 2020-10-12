@@ -1,5 +1,132 @@
-{% extends 'financeapp/home.html' %} {% load static %} {% block content %}
-<div>
-  <h2>User Dashboard</h2>
-</div>
+{% load static %} {% block content %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- Adjusting for varying screen sizes -- cellphones -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1"
+    />
+    <!-- Bootstrap cdn link -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <!-- Custom css link -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}" />
+
+    <!-- Fontawesome link -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+
+    <!-- Favicon Link  -->
+    <link rel="icon" type="image/png" href="{% static 'images/logo.jpeg' %}"/>
+    <title>User's Portfolio</title>
+  </head>
+  <body>
+       <!-- Navbar -->
+       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="{% url 'home' %}">
+          <img
+          src="{% static 'images/logo.png' %}"
+          width="30"
+          height="30"
+          class="d-inline-block align-top"
+          alt=""
+        />iFinanceApp</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+  
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="{% url 'home' %}"
+                >Home <span class="sr-only">(current)</span></a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
+            </li>
+          </ul>
+          <form action="{% url 'dashboard' %}" method="POST" class="form-inline my-2 my-lg-0">
+            {% csrf_token %}
+            <input class="form-control mr-sm-2" type="search" name="ticker" placeholder="Get Stock Quote" aria-label="Search">
+            <button class="btn btn-warning my-2 my-sm-0" type="submit">Stock Quote</button>
+          </form>
+          <div class="form-inline my-2 my-lg-0">
+            <span class="logout-msg">Hello, {{request.user}}</span>
+            <span><a href="{% url 'logout' %}" class="btn btn-danger">Logout</a></span>
+          </div>
+        </div>
+      </nav>
+    <div>
+      <center><h2>{{request.user}}'s Dashboard</h2></center>
+      <div class="container">
+        <div class="row">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis neque nemo sint! Enim maxime rem excepturi officiis ex beatae praesentium in delectus, tempora ea neque, ullam sapiente et facilis adipisci?
+        </div>
+      </div>
+      <hr />
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6">
+            {% if ticker %}
+              {{ticker}}
+            {% endif %}
+            
+            {% if api %}
+              {% if api == "Error..." %}
+                There was a problem with your ticker symbol.. Please check and try again.
+              {% else %}
+                
+                <h1>{{api.companyName}}</h1><br />
+                Price: ${{api.latestPrice}}<br />
+                Previous Close: ${{api.previousClose}}<br />
+                <!-- How much is the company worth?: -->
+                Market Cap: ${{api.marketCap}}<br /> 
+                YTD Change: {{api.ytdChange}}<br />
+                52Wk High: {{api.week52High}}<br />
+                52Wk Low: {{api.week52Low}}<br />
+
+              {% endif %}
+            {% endif %}
+          </div>
+
+          <div class="col-lg-6">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem labore quaerat officia maxime ad ipsam ducimus excepturi doloribus, eaque blanditiis et sunt dolore asperiores quos, aut perferendis quo doloremque dolor.
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Bootstrap cdn scripts -->
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+</body>
 {% endblock content %}
