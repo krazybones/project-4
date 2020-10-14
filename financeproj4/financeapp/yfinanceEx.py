@@ -5,13 +5,16 @@ import pandas as pd
 import numpy as np
 from datetime import datetime
 import yfinance as yf
+from io import BytesIO
+import base64
+
 
 startDate = '2012-01-01'
 endDate = str(datetime.now().strftime('%Y-%m-%d'))
 print('endDate=', endDate)
 
 # ticker
-usaStock = 'AMZN'
+usaStock = 'FB'
 
 # Retrieves stats - step 3
 
@@ -40,7 +43,7 @@ def clean_data(stock_data, col):
 
 def create_plot(stock_data, ticker):
     stats = get_stats(stock_data)
-    plt.subplots(figsize=(12, 8))
+    plt.subplots(figsize=(6, 3))
     plt.plot(stock_data, label=ticker)
     plt.plot(stats['short_rolling'], label='200 day rolling mean')
     plt.plot(stats['long_rolling'], label='200 day rolling mean')
@@ -48,7 +51,16 @@ def create_plot(stock_data, ticker):
     plt.ylabel('Adjusted Close ($)')
     plt.legend()
     plt.title('Stock Price over Time')
-    plt.show()
+    plt.tight_layout()
+
+    buffer = BytesIO()
+    plt.savefig(buffer, format='png')
+    buffer.seek(0)
+    image_png = buffer.getvalue()
+    buffer.close()
+
+    graphic = base64.b64encode(image_png).decode('utf-8')
+    return graphic
 
 # Gets the data - step 1
 
@@ -57,10 +69,10 @@ def get_data(ticker):
     try:
         stock_data = data.DataReader(ticker, 'yahoo', startDate, endDate)
         adj_close = clean_data(stock_data, 'Adj Close')
-        create_plot(adj_close, ticker)
+        return create_plot(adj_close, ticker)
 
     except RemoteDataError:
         print('No data found for {t}'.format(t=ticker))
 
 
-get_data(usaStock)
+# get_data(usaStock)

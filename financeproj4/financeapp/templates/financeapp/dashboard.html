@@ -61,9 +61,6 @@
             <li class="nav-item">
               <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'add_stock' %}">Add Stock</a>
-            </li>
           </ul>
           <form action="{% url 'dashboard' %}" method="POST" class="form-inline my-2 my-lg-0">
             {% csrf_token %}
@@ -113,7 +110,9 @@
           </div>
 
           <div class="col-lg-6">
-            {{api}}
+            <div style="width: 40px; height:40px;">
+              <img src="data:image/png;base64,{{graphic|safe}}">
+            </div>
           </div>
         </div>
       </div>

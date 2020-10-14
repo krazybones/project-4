@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .models import Stock
+from .yfinanceEx import get_data
 
 # Create your views here.
 
@@ -29,11 +30,12 @@ def dashboard(request):
         # pk_d2c4a815f6d34f34bffd2b1760bd99e5
         api_request = requests.get(
             "https://cloud.iexapis.com/stable/stock/" + ticker + "/quote?token=pk_d2c4a815f6d34f34bffd2b1760bd99e5")
+        graphic = get_data(ticker)
         try:
             api = json.loads(api_request.content)
         except Exception as e:
             api = "Error..."
-        return render(request, 'financeapp/dashboard.html', {'api': api})
+        return render(request, 'financeapp/dashboard.html', {'api': api, 'graphic': graphic})
 
     else:
         return render(request, 'financeapp/dashboard.html', {'ticker': "Enter a Ticker Symbol Above"})
@@ -79,35 +81,6 @@ def loginPage(request):
 def logoutUser(request):
     logout(request)
     return redirect('login')
-
-
-@login_required(login_url='login')
-def add_stock(request):
-    import requests
-    import json
-
-    if request.method == 'POST':
-        form = StockForm(request.POST or None)
-
-        if form.is_valid():
-            form.save()
-            messages.success(request, ("Stock Has Been Added Successfully!"))
-            return redirect('add_stock')
-    else:
-        ticker = Stock.objects.all()
-        output = []
-
-        # Looping API calls
-        for ticker_item in ticker:
-            api_request = requests.get(
-                "https://cloud.iexapis.com/stable/stock/" + str(ticker_item) + "/quote?token=pk_d2c4a815f6d34f34bffd2b1760bd99e5")
-            try:
-                api = json.loads(api_request.content)
-                output.append(api)
-            except Exception as e:
-                api = "Error..."
-
-        return render(request, 'financeapp/add_stock.html', {'ticker': ticker, 'output': output})
 
 
 def delete(request, stock_id):
