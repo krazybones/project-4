@@ -7,6 +7,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .models import Stock
 from .yfinanceEx import get_data
+import base64
+from io import BytesIO
+import os
 
 # Create your views here.
 
@@ -38,7 +41,11 @@ def dashboard(request):
         return render(request, 'financeapp/dashboard.html', {'api': api, 'graphic': graphic})
 
     else:
-        return render(request, 'financeapp/dashboard.html', {'ticker': "Enter a Ticker Symbol Above"})
+        pwd = os.path.dirname(__file__)
+        print(pwd)
+        with open(pwd + "\\no-graph.png", "rb") as image_file:
+            graphic = base64.b64decode(image_file.read())
+        return render(request, 'financeapp/dashboard.html', {'ticker': "Enter a Ticker Symbol Above", 'graphic': graphic})
 
 
 def register(request):
