@@ -10,7 +10,7 @@ class Profile(models.Model):
     # balance = models.IntegerField()
 
     def __str__(self):
-        return 'self.user.username Profile'
+        return self.user.username
 
 
 class Stock(models.Model):
