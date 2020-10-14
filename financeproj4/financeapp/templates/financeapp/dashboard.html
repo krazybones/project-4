@@ -77,10 +77,13 @@
         </div>
       </nav>
     <div>
-      <center><h2>{{request.user}}'s Dashboard</h2></center>
       <div class="container">
-        <div class="row">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis neque nemo sint! Enim maxime rem excepturi officiis ex beatae praesentium in delectus, tempora ea neque, ullam sapiente et facilis adipisci?
+        <div class="jumbotron">
+          <div class="container"></div>
+              <h2 class="display-4">{{request.user}}'s Dashboard</h2>
+              <hr class="my-4">
+              <h3>Current Account Balance: $1500.00</h3>
+          </div>
         </div>
       </div>
       <hr />
@@ -110,7 +113,7 @@
           </div>
 
           <div class="col-lg-6">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem labore quaerat officia maxime ad ipsam ducimus excepturi doloribus, eaque blanditiis et sunt dolore asperiores quos, aut perferendis quo doloremque dolor.
+            {{api}}
           </div>
         </div>
       </div>
@@ -133,3 +136,4 @@
     ></script>
 </body>
 {% endblock content %}
+
