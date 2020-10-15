@@ -45,7 +45,7 @@ def dashboard(request):
         print(pwd)
         with open(pwd + "\\no-graph.png", "rb") as image_file:
             graphic = base64.b64decode(image_file.read())
-        return render(request, 'financeapp/dashboard.html', {'ticker': "Enter a Ticker Symbol Above", 'graphic': graphic})
+        return render(request, 'financeapp/dashboard.html', {'ticker': "Search for a Ticker Symbol Above", 'graphic': graphic})
 
 
 def register(request):

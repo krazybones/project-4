@@ -65,7 +65,7 @@
           <form action="{% url 'dashboard' %}" method="POST" class="form-inline my-2 my-lg-0">
             {% csrf_token %}
             <input class="form-control mr-sm-2" type="search" name="ticker" placeholder="Get Stock Quote" aria-label="Search">
-            <button class="btn btn-warning my-2 my-sm-0" type="submit">Stock Quote</button>
+            <button class="btn btn-warning my-2 my-sm-0" type="submit">Get Quote</button>
           </form>
           <div class="form-inline my-2 my-lg-0">
             <span class="logout-msg">Hello, {{request.user}}</span>
